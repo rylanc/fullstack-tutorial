@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
@@ -14,7 +12,11 @@ import injectStyles from './styles';
 
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote endpoint
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  possibleTypes: {
+    Node: ['Rocket', 'User']
+  }
+});
 const client = new ApolloClient({
   cache,
   link: new HttpLink({

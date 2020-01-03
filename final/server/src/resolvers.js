@@ -28,6 +28,39 @@ module.exports = {
       dataSources.launchAPI.getLaunchById({ launchId: id }),
     me: async (_, __, { dataSources }) =>
       dataSources.userAPI.findOrCreateUser(),
+    allTheStuff: (_, { id }, { dataSources }) =>([
+      {
+        id: '1',
+        email: 'a@b.com',
+        trips: [],
+      },
+      {
+        id: '1',
+        name: 'Rocket A',
+        type: 'Missile',
+      },
+      {
+        id: '2',
+        site: 'Site A',
+      }
+    ]),
+  },
+  Node: {
+    __resolveType(obj, context, info){
+      if (obj.email) {
+        return 'User';
+      }
+
+      if (obj.type) {
+        return 'Rocket';
+      }
+
+      if (obj.site) {
+        return 'Launch';
+      }
+
+      return null;
+    },
   },
   Mutation: {
     bookTrips: async (_, { launchIds }, { dataSources }) => {

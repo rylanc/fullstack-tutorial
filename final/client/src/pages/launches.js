@@ -29,8 +29,16 @@ export const GET_LAUNCHES = gql`
         ...LaunchTile
       }
     }
+    allTheStuff {
+      ...TestFragment
+    }
   }
+
   ${LAUNCH_TILE_DATA}
+
+  fragment TestFragment on Node {
+    id
+  }
 `;
 
 export default function Launches() {
@@ -41,6 +49,16 @@ export default function Launches() {
   return (
     <Fragment>
       <Header />
+      <h4>Nodes</h4>
+      <div>
+        {data.allTheStuff.map((thing, idx) => (
+          <>
+            <div>Type: {thing.__typename}</div>
+            <div>ID: {thing.id || 'MISSING ID'}</div>
+          </>
+        ))}
+      </div>
+
       {data.launches &&
         data.launches.launches &&
         data.launches.launches.map(launch => (

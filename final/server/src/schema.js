@@ -14,6 +14,11 @@ const typeDefs = gql`
     ): LaunchConnection!
     launch(id: ID!): Launch
     me: User
+    allTheStuff: [Node]
+  }
+
+  interface Node {
+    id: ID!
   }
 
   type Mutation {
@@ -43,7 +48,7 @@ const typeDefs = gql`
     launches: [Launch]!
   }
 
-  type Launch {
+  type Launch implements Node {
     id: ID!
     site: String
     mission: Mission
@@ -51,13 +56,13 @@ const typeDefs = gql`
     isBooked: Boolean!
   }
 
-  type Rocket {
+  type Rocket implements Node {
     id: ID!
     name: String
     type: String
   }
 
-  type User {
+  type User implements Node {
     id: ID!
     email: String!
     trips: [Launch]!
